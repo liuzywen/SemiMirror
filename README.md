@@ -1,5 +1,5 @@
 # SemiMirror
-![Main](SemiMain.png)
+![Main](SemiMain.jpg)
 
 Code:
 链接: https://pan.baidu.com/s/1MbhOaWY4z_PB4a7g8DQRvw 提取码: qmxm 
