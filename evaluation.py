@@ -4,9 +4,9 @@ from joblib import Parallel, delayed
 from PIL import Image
 
 parser = argparse.ArgumentParser()
-
-parser.add_argument("-pred", "--prediction", type=str, default=r"pred/", required=False)
-parser.add_argument("-gt", "--mirrormask", type=str, default=r"GT/", required=False)
+# parser.add_argument("-pred", "--prediction", type=str, default=r"test_maps/semi_RGBD/test", required=False)
+parser.add_argument("-pred", "--prediction", type=str, default=r"D:\ZGH\ZGH_code\semi_Supervised_My_Code\Semin_RGBD_mirror\test_maps\semi_RGBD\test/", required=False)
+parser.add_argument("-gt", "--mirrormask", type=str, default=r"D:\ZGH\data\RGBD-Mirror\test\GT", required=False)
 args = parser.parse_args()
 
 class Metrics:

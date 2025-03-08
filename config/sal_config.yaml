@@ -1,0 +1,91 @@
+dataset: # Required.
+  train:
+    data_root: D:\ZGH\data\RGBD-Mirror\semi_train\1_16
+    trainsize: 416
+
+  val:
+    data_root: D:\ZGH\data\RGBD-Mirror\test
+  batch_size: 4
+  ration: 1
+  workers: 0
+  ignore_label: 255
+  strong_aug:
+    num_augs: 3
+    flag_use_random_num_sampling: True
+
+trainer: # Required.
+  epochs: 100
+  sup_only_epoch: 1
+  freeze_teacher: 100
+  eval_on: True
+  ramp_up: 0.1
+  optimizer:
+    type: AdamW
+    kwargs:
+      weight_decay: 0.0001
+      lr: 0.00005
+      betas: [0.9, 0.999]
+
+  lr_scheduler:
+    mode: poly
+    kwargs:
+      power: 0.9
+
+  clip_grad: 0.5
+  unsupervised:
+    TTA: False
+    warm_epoch: 20
+    threshold: 0.95
+    use_cutmix: True
+    use_cutmix_adaptive: True
+    use_cutmix_trigger_prob: 1.0  # wide range, but trigger by 100%
+    use_rotate: True
+    unsupervised_w: 3
+
+  contrastive:
+    negative_high_entropy: True
+    low_rank: 3
+    high_rank: 20
+    current_class_threshold: 0.3
+    current_class_negative_threshold: 1
+    unsupervised_entropy_ignore: 80
+    low_entropy_threshold: 20
+    num_negatives: 50
+    num_queries: 256
+    temperature: 0.5
+
+saver:
+  snapshot_dir: checkpoints
+  pretrain: ''
+  auto_resume: False
+
+criterion:
+  type: ohem
+  kwargs:
+    use_weight: False
+
+net: # Required.
+  num_classes: 2
+  sync_bn: False
+  ema_decay: 0.999
+  encoder:
+    type: model.encoder.pvtv2.pvt_v2_b2
+    kwargs:
+        pretrained: D:\ZGH\Parameters\pvt_v2_b2.pth
+  decoder:
+    type: model.decoders.decoder.SDecoder
+    kwargs:
+       dim: 128
+
+
+  cdecoder:
+    type: model.decoders.decoder.PVTDecoder_Single
+    kwargs:
+       dim: 128
+
+
+
+test:
+  data_root: D:\ZGH\data\RGBD-Mirror/
+  checkpoint_root: checkpoints/ckpt_best_warm_student_exp_0.0254_best_full.pth
+
